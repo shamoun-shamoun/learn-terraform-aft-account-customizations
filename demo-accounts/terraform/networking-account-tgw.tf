@@ -92,7 +92,7 @@ resource "aws_route_table" "shared-vpc-rt" {
 
   route {
     cidr_block = "10.0.0.0/8"
-    gateway_id = aws_ec2_transit_gateway_route_table.tgw-rt.id
+    transit_gateway_id = aws_ec2_transit_gateway.shared-tgw.id
   }
 
   tags = {
@@ -112,10 +112,10 @@ resource "aws_internet_gateway" "igw-shared-vpc" {
   }
 }
 
-resource "aws_internet_gateway_attachment" "attach-igw-shared-vpc" {
+/* resource "aws_internet_gateway_attachment" "attach-igw-shared-vpc" {
   internet_gateway_id = aws_internet_gateway.igw-shared-vpc.id
   vpc_id              = aws_vpc.shared-vpc.id
-}
+} */
 
 
 
@@ -178,16 +178,16 @@ resource "aws_ec2_transit_gateway_route_table_association" "tgw-rt-associations-
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.rt-shared-domain.id
 }
 
-resource "aws_ec2_transit_gateway_route_table_association" "tgw-rt-associations-prod-attach" {
+/* resource "aws_ec2_transit_gateway_route_table_association" "tgw-rt-associations-prod-attach" {
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.prod-vpc-attach.id
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.rt-shared-domain.id
 }
-
-resource "aws_ec2_transit_gateway_route_table_association" "tgw-rt-associations-non-prod-attach" {
+ */
+/* resource "aws_ec2_transit_gateway_route_table_association" "tgw-rt-associations-non-prod-attach" {
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.non-prod-vpc-attach.id
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.rt-shared-domain.id
 }
-
+ */
 
 #route table propagation with all attachements
 #################################################################
@@ -196,16 +196,16 @@ resource "aws_ec2_transit_gateway_route_table_propagation" "tgw-rt-propagation-s
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.rt-shared-domain.id
 }
 
-resource "aws_ec2_transit_gateway_route_table_propagation" "tgw-rt-propagation-prod-attach" {
+/* resource "aws_ec2_transit_gateway_route_table_propagation" "tgw-rt-propagation-prod-attach" {
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.prod-vpc-attach.id
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.rt-shared-domain.id
 }
-
-resource "aws_ec2_transit_gateway_route_table_propagation" "tgw-rt-propagation-non-prod-attach" {
+ */
+/* resource "aws_ec2_transit_gateway_route_table_propagation" "tgw-rt-propagation-non-prod-attach" {
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.non-prod-vpc-attach.id
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.rt-shared-domain.id
 }
-
+ */
 
 #Add routes to prod transit gateway route table
 # resource "aws_ec2_transit_gateway_route" "route-prod-to-tgw" {
