@@ -123,9 +123,13 @@ resource "aws_internet_gateway" "igw-shared-vpc" {
 #Creating NAT Gateway in puplic subnet 1 in shared-vpc
 ##############################################################
 
+resource "aws_eip" "eip-ngw" {
+  vpc = true
+  public_ipv4_pool = "amazon"
+}
 resource "aws_nat_gateway" "nat-gw-pup-sub-1" {
   subnet_id     = aws_subnet.shared-pub-sub-1.id
-
+  allocation_id = aws_eip.eip-ngw.id
   tags = {
     Name = "nat-gw-pup-sub-1"
   }
@@ -155,6 +159,8 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "shared-vpc-attach" {
   subnet_ids = [ aws_subnet.shared-attach-sub-1.id, aws_subnet.shared-attach-sub-2.id ]
   transit_gateway_id = aws_ec2_transit_gateway.shared-tgw.id
   vpc_id = aws_vpc.shared-vpc.id
+  transit_gateway_default_route_table_association = true
+  transit_gateway_default_route_table_propagation = true
 }
 
 
