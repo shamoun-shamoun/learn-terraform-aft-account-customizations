@@ -159,6 +159,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "shared-vpc-attach" {
   subnet_ids = [ aws_subnet.shared-attach-sub-1.id, aws_subnet.shared-attach-sub-2.id ]
   transit_gateway_id = aws_ec2_transit_gateway.shared-tgw.id
   vpc_id = aws_vpc.shared-vpc.id
+  transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.rt-shared-domain.id
   transit_gateway_default_route_table_association = true
   transit_gateway_default_route_table_propagation = true
 }
@@ -244,7 +245,7 @@ resource "aws_ram_resource_association" "shared-tgw-resource-association" {
 
 #Associating the principal(AWS Organisation) with the RAM share
 resource "aws_ram_principal_association" "shared-tgw-principal-association" {
-  principal = "arn:aws:organizations::506836426456:organization/o-m38a60h090"
+  principal = "arn:aws:organizations::266981674444:organization/o-m38a60h090"
   resource_share_arn = aws_ram_resource_share.share-tgw-resource.arn
 }
 
